@@ -25,7 +25,7 @@ class Population:
         self.members:list[Element] = [ Element(chromosome,initialFitness) for _ in range(populationSize)]
 
     def select(self, fun) -> None:
-        self.members = self.members[:fun(self.members)]
+        self.members = self.members[:min(fun(self.members),len(self.members))]
 
     def crossover(self,maxPopulationSize:int, crossoverLimit:int, crossoverPoint:int) -> None:
         newMembers:list[Element] = list()

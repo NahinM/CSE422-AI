@@ -1,19 +1,28 @@
 import random
 
 class Element:
-    def __init__(self,chromosome:list, fitVal:int) -> None:
+    def __init__(self,chromosome:list[int], fitVal:int) -> None:
         self.fitnessValue:int = fitVal
-        self.Chromosome:list = chromosome
+        self.Chromosome:list[int] = chromosome
 
     def fitness(self) -> None:
-        pass
+        global Data
+        self.fitnessValue = 0
+        weight = 0
+        for i,v in enumerate(self.Chromosome):
+            if self.Chromosome[i]==1:
+                weight+=Data["weight"][i]
+                self.fitnessValue+=Data["value"][i]
+        if weight>Data["capacity"]: self.fitnessValue = -self.fitnessValue
 
     def mutate(self) -> None:
-        pass
+        N = len(self.Chromosome)
+        self.Chromosome[random.randint(0,N-1)] = random.randint(0,1)
 
 class Population:
     def __init__(self, populationSize:int, initialFitness:int) -> None:
-        chromosome:list[int] = [] # Only need to change this one line
+        global Data
+        chromosome:list[int] = [random.randint(0,1) for _ in range(Data["NumerOfItems"])]
         self.members:list[Element] = [ Element(chromosome,initialFitness) for _ in range(populationSize)]
 
     def select(self, fun) -> None:
@@ -69,9 +78,16 @@ class AlgorithmRunner:
             population.crossover(self.MaxPopulationSize,self.MaxCrossoverLimit,self.CrossoverPoint)
             population.mutate()
             population.fitness()
-            if bestValue==population.bestValues(1)[0].fitnessValue: break
+            # if bestValue==population.bestValues(1)[0].fitnessValue: break
 
         print(population.bestValues(1)[0].Chromosome)
+
+Data = {
+    "capacity":5,
+    "weight":[1,2,3],
+    "value":[1,7,11],
+    "NumerOfItems":3,
+}
 
 if __name__=="__main__":
     Algorithm:AlgorithmRunner = AlgorithmRunner(
