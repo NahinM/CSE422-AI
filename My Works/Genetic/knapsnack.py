@@ -9,7 +9,7 @@ class Element:
         global Data
         self.fitnessValue = 0
         weight = 0
-        for i,v in enumerate(self.Chromosome):
+        for i in range(len(self.Chromosome)):
             if self.Chromosome[i]==1:
                 weight+=Data["weight"][i]
                 self.fitnessValue+=Data["value"][i]
@@ -81,12 +81,25 @@ class AlgorithmRunner:
             # if bestValue==population.bestValues(1)[0].fitnessValue: break
 
         print(population.bestValues(1)[0].Chromosome)
+        knapsnackDetail(population.bestValues(1)[0].Chromosome)
+
+#spatial function
+def knapsnackDetail(chromosome:list[int]):
+    global Data
+    weight:int = 0
+    value:int = 0
+    for i in range(len(chromosome)):
+        if chromosome[i]==1:
+            weight+=Data["weight"][i]
+            value+=Data["value"][i]
+            print(f"w:{Data["weight"][i]}, v:{Data["value"][i]} ")
+    print(f"Total Weight:{weight}, Total Value: {value}.")
 
 Data = {
-    "capacity":5,
-    "weight":[1,2,3],
-    "value":[1,7,11],
-    "NumerOfItems":3,
+    "capacity":10,
+    "weight":[2, 1, 5, 3],
+    "value":[300, 200, 400, 500],
+    "NumerOfItems":4,
 }
 
 if __name__=="__main__":
