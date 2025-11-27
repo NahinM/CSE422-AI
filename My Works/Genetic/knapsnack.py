@@ -92,7 +92,7 @@ def knapsnackDetail(chromosome:list[int]):
         if chromosome[i]==1:
             weight+=Data["weight"][i]
             value+=Data["value"][i]
-            print(f"w:{Data["weight"][i]}, v:{Data["value"][i]} ")
+            print(f"Item{i+1}-> w:{Data["weight"][i]}, v:{Data["value"][i]} ")
     print(f"Total Weight:{weight}, Total Value: {value}.")
 
 Data = {
