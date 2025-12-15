@@ -13,8 +13,7 @@ class Element:
 
 class Population:
     def __init__(self, populationSize:int, initialFitness:int) -> None:
-        chromosome:list[int] = [] # Only need to change this one line
-        self.members:list[Element] = [ Element(chromosome,initialFitness) for _ in range(populationSize)]
+        self.members:list[Element] = [ Element(chromosome=[],fitVal=initialFitness) for _ in range(populationSize)]
 
     def select(self, fun) -> None:
         self.members = self.members[:min(fun(self.members),len(self.members))]
