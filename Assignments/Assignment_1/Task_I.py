@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open("input.txt","r")
+sys.stdin = open("input1.txt","r")
 import heapq
 
 def solve():
@@ -33,6 +33,10 @@ def solve():
 
 t:int = 1
 t = int(input())
+cas = 1
 while t>0:
     t-=1
+    print(f"--- Test case{cas} ---")
+    cas+=1
     solve()
+    print()
