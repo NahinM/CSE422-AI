@@ -39,6 +39,26 @@ class Population:
 
     def sort(self ):
         self.population.sort( reverse=True, key=lambda cell: cell.fitness)
+    
+    def put_in_new_gen(self, c1:Cell, c2:Cell ) -> None:
+        if len(self.population)-len(self.newGeneration)==1:
+            self.newGeneration.append(c1) if random.randint(0,1)==1 else self.newGeneration.append(c2)
+            return
+        self.newGeneration.append(c1)
+        self.newGeneration.append(c2)
+    
+    def generate_newGen(self):
+        elits = self.data["elits"]
+        while len(self.newGeneration)<len(self.population):
+            if elits!=0:
+                elits-=1
+                self.newGeneration.append(Cell(self.population[0].chromosome.copy(),100))
+                continue
+            p1,p2 = self.select()
+            c1,c2 = self.crossover(p1,p2)
+            self.put_in_new_gen(c1,c2)
+        self.population = self.newGeneration
+        self.newGeneration = list()
 
 #Selection Type
 Random_,Ranked_ = "random","ranked"
@@ -52,3 +72,17 @@ data = {
     "chromosome_definition": lambda n : Cell([],100)
 }
 data["population"] = Population(data)
+
+# running genetic algo
+data["population"].fit()
+best:Cell = data["population"].population[0]
+for G in range(1,data["gn"]+1):
+    print(f"Generation:{G}")
+    data["population"].generate_newGen()
+    data["population"].mutate()
+    data["population"].fit()
+
+    best = data["population"].population[0]
+    if best.fitness == 0: break
+
+print(best.chromosome)

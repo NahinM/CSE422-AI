@@ -72,9 +72,9 @@ class Population:
 Random_,Ranked_ = "random","ranked"
 data = {
     "gn":400,
-    "queens": 4,
+    "queens": 8,
     "selection_type": Ranked_,
-    "crossover_point": 2,
+    "crossover_point": 3,
     "population_size": 1000,
     "elits":100,
     "chromosome_definition": lambda n : Cell([random.randint(0,n-1) for _ in range(n)],100)
@@ -83,7 +83,7 @@ data["population"] = Population(data)
 
 # running genetic algo
 data["population"].fit()
-best:Cell
+best:Cell = data["population"].population[0]
 for G in range(1,data["gn"]+1):
     print(f"Generation:{G}")
     data["population"].generate_newGen()
